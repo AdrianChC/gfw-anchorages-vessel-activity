@@ -1,0 +1,22 @@
+
+# WIP
+.deprecated/
+wip-[123].qgz
+
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.pixi/
+.venv/
+
+# IDEs
+.vscode/
+
+# Data
+data/raw/
+data/output/
+
+# Web Map
+web-map/.deprecated/

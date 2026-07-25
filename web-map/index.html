@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GFW: Anchorages Web Map</title>
+
+    <!-- MapLibre GL CSS -->
+    <link
+        href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css"
+        rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+
+<body>
+
+    <div id="container">
+        
+        <div id="left-panel">
+
+            <div id="left-panel-scroll">
+                
+                <div id="country-search">
+                    <input id="country-input" placeholder="Search country or port...">
+                    <div id="country-results"></div>
+                </div>
+                
+                <aside id="sidebar">
+                    <h2>Anchorage Information</h2>
+                    <div id="info">
+                        <p>Click an anchorage point on the map.</p>
+                    </div>
+                </aside>
+
+                <div id="chart-container">
+                    <h2>Daily Events</h2>
+                    <div id="chart-placeholder">
+                        <p>Anchorage point daily event series.</p>
+                    </div>
+                    <canvas id="events-chart"></canvas>
+                </div>
+
+                <div id="legend" >
+
+                    <h2>Monthly Events</h2>
+                    
+                    <div class="legend-list">
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#0078ff"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Below 95th Percentile</span> 
+                                <span class="legend-range">&lt; 241</span>
+                            </div>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#6b6bed"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Above 5th Percentile</span>
+                                <span class="legend-range">241 – 844</span>
+                            </div>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#915dd8"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Top 500</span>
+                                <span class="legend-range">844 – 3,394</span>
+                            </div>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#a850c1"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Top 20</span>
+                                <span class="legend-range">3,394 – 4,333</span>
+                            </div>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#b745aa"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Top 5</span>
+                                <span class="legend-range">4,333 – 7,315</span>
+                            </div>
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-color" style="background:#bf3c92"></span>
+                            <div class="legend-content">
+                                <span class="legend-label">Highest Activity</span>
+                                <span class="legend-range">&ge; 7,315</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="map"></div>
+        
+    </div>
+
+    
+    <!-- MapLibre GL JS -->
+    <script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+    
+    <!-- PMTiles -->
+    <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- App -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>

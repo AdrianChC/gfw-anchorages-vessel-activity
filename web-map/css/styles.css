@@ -1,0 +1,325 @@
+/* ---------- Global ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --panel-width: 320px;
+
+    --panel-bg: #383645cc;
+    --panel-text: #faf7ff;
+    --label-color: #cecece;
+
+    --radius: 1rem;
+    --radius-small: 8px;
+
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+    --gap: 20px;
+    --padding: 1rem;
+
+    --title-size: 20px;
+    --body-size: 16px;
+    --label-size: 14px;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: system-ui;
+}
+
+#container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ---------- Left panel ---------- */
+
+#left-panel {
+  
+    position: absolute;
+    top: 45px;
+    left: 30px;
+
+    width: var(--panel-width);
+
+    z-index: 10;
+  
+}
+
+#left-panel-scroll {
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
+    max-height: calc(100vh - 60px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 30px;          /* room for shadows */
+    margin: -30px;          /* keep outer size unchanged */
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    scroll-behavior: smooth;
+
+}
+
+/* ---------- Shared panel styles ---------- */
+
+#sidebar,
+#chart-container {
+
+    background: var(--panel-bg);
+    color: var(--panel-text);
+
+    padding: var(--padding);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+}
+
+#sidebar h2,
+#chart-container h2,
+#legend h2 {
+
+    margin: 0;
+
+    font-size: var(--title-size);
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+#chart-container {
+    min-height: auto;
+}
+
+#events-chart {
+    margin: 16px 0px 0px;
+    display: none;
+}
+
+
+/* ---------- Information panel ---------- */
+
+.field,
+.metrics,
+.date-range {
+    margin-top: var(--gap);
+}
+
+.label {
+    font-size: var(--label-size);
+    color: var(--label-color);
+}
+
+.value {
+    display: flex;
+    gap: 30px;
+
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.value-bold {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.country {
+    text-transform: uppercase;
+}
+
+.metrics {
+    display: flex;
+    gap: 30px;
+}
+
+.metric {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+
+/* ---------- Search ---------- */
+
+#country-search {
+    position: relative;
+}
+
+#country-input {
+
+    width: 100%;
+
+    padding: 10px var(--padding);
+
+    border: none;
+    border-radius: var(--radius-small);
+
+    background: #faf7ffdd;
+
+    font-size: var(--label-size);
+
+    box-shadow: var(--shadow);
+}
+
+#country-results {
+
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+
+    width: 100%;
+
+    max-height: 250px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: white;
+
+    border-radius: var(--radius-small);
+
+    box-shadow: var(--shadow);
+
+    z-index: 100;
+}
+
+#country-results:empty {
+    display: none;
+}
+
+.country-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.country-option:hover {
+    background: #eee;
+}
+
+
+/* ---------- Scrollbar ---------- */
+
+#country-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+#country-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#country-results::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 4px;
+}
+
+#country-results::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+
+/* ---------- Legend ---------- */
+
+#legend{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:var(--space-4);
+
+    
+    background: var(--panel-bg);
+    color: var(--panel-text);
+
+    padding: var(--padding);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+}
+
+.legend-list{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    margin-top: 16px;
+}
+
+.legend-item{
+
+    display:flex;
+    align-items:center;
+    
+    gap:12px;
+}
+
+.legend-color{
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    flex-shrink:0;
+
+}
+
+.legend-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:baseline;
+
+    gap:12px;
+
+    width:100%;
+
+}
+
+.legend-label{
+
+    font-size:var(--body-size);
+    font-weight:500;
+
+    color:var(--panel-text);
+
+    flex:1;
+    
+}
+
+.legend-range{
+
+    font-size:var(--body-size);
+    font-weight:400;
+
+    color:var(--panel-text);
+
+    white-space:nowrap;
+
+}
