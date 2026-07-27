@@ -18,12 +18,12 @@ import { registerSearch } from "./search.js";
 
 
 // Load search index
-const response_si = await fetch("../data/searchIndex.json");
+const response_si = await fetch("./data/searchIndex.json");
 const searchIndex = await response_si.json();
 
 
 // Load metadata file
-const response_mt = await fetch("../data/metadata.json");
+const response_mt = await fetch("./data/metadata.json");
 const metadata = await response_mt.json();
 
 // format to readable start-date
@@ -41,7 +41,7 @@ metadata.endDate = formatDate(metadata.end_date, {
 
 
 // Load timeseries file
-const response_ts = await fetch("../data/timeSeries.json");
+const response_ts = await fetch("./data/timeSeries.json");
 const timeSeries = await response_ts.json();
 
 
