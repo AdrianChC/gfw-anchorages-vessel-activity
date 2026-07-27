@@ -2,7 +2,7 @@
 // Add sources
 
 // PMTiles archive location
-const PMTILES_URL = "../data/data.pmtiles";
+const PMTILES_URL = "./data/data.pmtiles";
 
 // Register the PMTiles protocol once when this module loads
 const protocol = new pmtiles.Protocol();
