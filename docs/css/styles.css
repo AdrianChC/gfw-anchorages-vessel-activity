@@ -17,7 +17,7 @@
     --radius-small: 8px;
 
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-
+    
     --gap: 20px;
     --padding: 1rem;
 
@@ -58,22 +58,28 @@ body {
     width: var(--panel-width);
 
     z-index: 10;
-  
-}
-
-#left-panel-scroll {
 
     display: flex;
     flex-direction: column;
     gap: var(--gap);
 
-    max-height: calc(100vh - 60px);
+}
+
+#left-panel-scroll {
+    
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
+    max-height: calc(100vh - 145px);
 
     overflow-y: auto;
     overflow-x: hidden;
 
-    padding: 30px;          /* room for shadows */
-    margin: -30px;          /* keep outer size unchanged */
+    /* room for shadows */
+    padding: 0px 30px 30px 30px;           
+    /* keep outer size unchanged */
+    margin: 0px -30px -30px -30px;          
 
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -82,10 +88,12 @@ body {
 
 }
 
+
 /* ---------- Shared panel styles ---------- */
 
 #sidebar,
-#chart-container {
+#chart-container,
+#legend {
 
     background: var(--panel-bg);
     color: var(--panel-text);
@@ -95,6 +103,8 @@ body {
     border-radius: var(--radius);
 
     box-shadow: var(--shadow);
+
+    z-index: 10;
 }
 
 #sidebar h2,
@@ -248,15 +258,6 @@ body {
 
     gap:var(--space-4);
 
-    
-    background: var(--panel-bg);
-    color: var(--panel-text);
-
-    padding: var(--padding);
-
-    border-radius: var(--radius);
-
-    box-shadow: var(--shadow);
 }
 
 .legend-list{
@@ -323,3 +324,64 @@ body {
     white-space:nowrap;
 
 }
+
+
+/* ------- Responsive Features ------- */
+
+/* the left panel */
+@media (max-width:600px){
+
+    #map{
+
+            width:100%;
+            height:100vh;
+
+    }
+
+    #left-panel {
+
+        inset:0;
+        width: 100%;
+
+        /* position:absolute; */
+        left:50%;
+        transform:translateX(-50%);
+        width:min(90%,420px);
+
+        gap: calc(50vh);
+
+        pointer-events: none;
+    
+    }
+
+    #left-panel-scroll {
+
+        max-height: calc(50vh - 100px);
+       
+    }
+
+    #country-search {
+
+        top:15px;
+        width: 90%;
+        
+    }
+
+    #country-search,
+    #sidebar,
+    #chart-container,
+    #legend {
+
+        pointer-events: auto;
+
+    }
+
+    .maplibregl-ctrl-top-right .maplibregl-ctrl {
+        margin: 18px 10px 0 0;
+    }
+
+    
+      
+}
+
+
