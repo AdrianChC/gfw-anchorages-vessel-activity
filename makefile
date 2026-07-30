@@ -14,9 +14,12 @@ set-kernel:
 	  '{"python.defaultInterpreterPath": "$${workspaceFolder}/.venv/bin/python"}' \
 	  > .vscode/settings.json
 
-set-docker:
-	docker compose up -d
-	docker compose ps
+# set-docker:
+# 	docker compose up -d
+# 	docker compose ps
 
 load-data:
 	bash load_data.sh
+
+pmtiles-data:
+	bash create_pmtiles_data.sh
