@@ -1,5 +1,7 @@
 
-# Global Fishing Watch Vessels Voyages Analysis and Web Map
+# Global Fishing Watch Vessel Voyages and Anchorages Analysis and Web Map
+
+![Global Anchorage Web Map](docs/images/1-global-map.png)
 
 ## The question
 
@@ -7,15 +9,15 @@
 
 This question is desegregated in five major questions to address the spatial distribution of anchorage points and the amount vessels visits.
 
-1. What is the spatial distribution of ports, docks and anchorage points at the global scale?
+1. What is the global spatial distribution of ports, docks and anchorage points?
 
-2. How many vessel visits does anchorage points have per month?
+2. How frequently are anchorage points visited by vessels?
 
-3. What is the intensity of daily visits per anchorage points?
+3. What is the daily intensity of vwssel activity at each anchorage point?
 
-4. How many vessel visits does anchorage points have per day?
+4. How does daily vessel activity vary at each anchorage point during the month?
 
-5. How is the monthly vessel visits count distribution?
+5. Which anchorage points, ports, and countries concentrate the highest vessel activity?
 
 - Where are the anchorage points below the 95th Percentile?
 - Where are located the anchorage points above the 95th Percentile ?
@@ -30,33 +32,33 @@ This question is desegregated in five major questions to address the spatial dis
 - **Anchorage Points:** `named_anchorages_v2_pipe_v3_202601.csv` 
 <br> Global Fishing Watch. 2026. Anchorages Version 3. Data set accessed 2026-07-05.
 - **Vessels Voyages:** `voyages_c4_pipe_v3_202606.csv` 
-<br> Global Fishing Watch. 2026, updated monthly. Voyages - confidence level 4 - AIS data pipieline v4. Data set accessed 2026-07-05
+<br> Global Fishing Watch. 2026, updated monthly. Voyages - confidence level 4 - AIS data pipieline v4. Data set accessed 2026-07-05.
 
 
 ## Methodology
 
-Built the exploratory analysis, data transformation,processing, and delivery of ready-for-web map data with **Python Pandas and GeoPandas** as showned in the `ETL-anchorages-voyages-v4.ipynb`.
+Built the exploratory analysis, data transformation, processing, and delivery of ready-for-web map data with **Python Pandas and GeoPandas** as showned in the `ETL-anchorages-voyages-v4.ipynb`.
 
-Anchorages dataset was transformed to show relevant information only such as the label, unique identifier, associated country and dock. The anchorage dataset was also enritched to list the full name of the Exclusive Economic Zone (EEZ) containing each point.
+The anchorages dataset was transformed to show only relevant information, such as the label, unique identifier, associated country, and dock classification. The anchorage dataset was also enriched to include the full name of the Exclusive Economic Zone (EEZ) containing each point.
 
-Vessel Voyages dataset was transformed to list the vessel visits to the anchorage points during the June 2026, as it was the month that listed more visit records. A daily time-series visit was also made from this dataset, as well as an aggregated metric to measure the intensity of use for each anchorage point.
+The Vessel Voyages dataset was transformed to list vessel visits to the anchorage points during June 2026, as it was the month with the highest number of recorded visits. A daily time-series of visit was also generated from this dataset, as well as an aggregated metric to measure the intensity of use for each anchorage point.
 
 An spatial search index was built using the EEZ and port names listed in the dataset, which is used in the web map.
 
-The anchorage spatial dataset was converted into a `PMTiles` format which makes it possible to show the amount of records at global scale. The jupyter notebook deliver `json` files that are displayed in the web map. The following are the files loaded into the web map
+The anchorage spatial dataset was converted into a `PMTiles` format which makes it possible to display the large number of records at global scale. The Jupyter Notebook deliver `JSON` files that are displayed in the web map. The following are the files loaded into the web map:
 
-- `data.pmtiles` is the anchorage points information in a map tile format
-- `metadata.json` is the vessel visits timeframe.
-- `searchIndex.json` is a list of countries and ports bounding boxes around the anchorage points that is used as in the web map search bar.
-- `timeSeries.json` is the daily voyages visits per anchorage point during the given timeframe.
+- `data.pmtiles` contains the anchorage points information in a map tile format
+- `metadata.json` contains the vessel visits timeframe.
+- `searchIndex.json` contains a list of countries and ports bounding boxes around the anchorage points, which is used by the web map search bar.
+- `timeSeries.json` contains the daily vessel visits per anchorage point during the given timeframe.
 
 
 ## Findings
 
 For the June 2026 time period:
 
-- The most visited anchorage point was located in the Port of Shangai. It received 7,315 vessels.
-- 95% of the anchorare point had less than 241 vessel visits. Most of them had just one.
+- The most visited anchorage point was located in the Port of Shanghai. It received 7,315 vessels.
+- 95% of the anchorage point had fewer than 241 vessel visits. Most of them had just one.
 - The top 5 most visited anchorage points are located in China, Indonesia, Netherlands and New Zealand.
 
 | s2id     | Port       | Country               | month visits |
@@ -123,13 +125,42 @@ Make sure the the folder `./docs/data/` has the following files:
 
 The `map_style_smooth_dark.json` file is a custom map style based on Stadia Maps Alidade Smooth Dark style but without the propietary fonts or gliphs. Feel free to use it or other style.
 
+Serve the `docs` folder using a local web server:
+
+```bash
+python -m http.server
+```
+
+http://localhost:8000
+
+## Web map features
+
+![Anchorage selection and time-series](docs/images/2-anchorage-timeseries.png)
+
+✅ Search for countries and ports <br>
+✅ View search suggestions while typing <br>
+✅ Navigate to geographic areas <br>
+✅ Explore anchorage locations interactively <br>
+✅ Interact through mouse hover and touch selection <br>
+✅ Highlight selected features <br>
+✅ Automatically zoom to selected points <br>
+✅ View port and country attributes <br>
+✅ Explore historical activity through line graphs <br>
+✅ Analyze vessel activity trends by anchorage point <br>
+✅ View dataset temporal coverage <br>
+✅ Reset the interface after exploration <br>
+✅ Use the application on desktop and smartphone screens (≤600 px) <br>
+✅ Interact through mouse or touch controls <br>
+
+![Mobile responsive version](docs/images/3-mobile-view.png)
+
 ## What I learned
 
 - Set up a reproducible project environment that allows running
 the ETL pipeline, and Jupyter Notebook.
 - Set up a ETL pipeline from a data portal that delivers ready-to-use data with a tile format that host large dataset that would not be possible to display in other formats.
 - Prepared a Jupyter Notebook with basic spatial EDA that reports two spatial metrics and visualize them with a web maps.
-- Web mapping is an scalable solution that produces fully functional apps when the design considers scalability.
+- Web mapping provides scalable solutions capable of handling large datasets when the architecture is designed accordingly.
 - Dividing the Java Script functionality into module makes the app easy to navigate, fix, and improve.
 - Web mapping design has to consider the desktop and the mobile responsive version.
 - Cartographic design principles always applies rather the map is static or interactive.
@@ -137,8 +168,12 @@ the ETL pipeline, and Jupyter Notebook.
 
 ## Stack
 
-- Bash + Pixi + tippecanoe
-- Jupyter Lab
-- Python + Pandas + GeoPandas + matplotlib
-- Proton Maps Tiles
-- Html + Java Script + CSS
+- **Environment** : Bash + Pixi
+
+- **Data Processing** : Jupyter Lab + Python + Pandas + GeoPandas + Matplotlib
+
+- **Geospatial Processing** : PMTiles + Tippecanoe + GeoJSON
+
+- **Web Development** : HTML + CSS + JavaScript
+
+
