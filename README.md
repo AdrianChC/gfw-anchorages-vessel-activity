@@ -1,19 +1,27 @@
 
 # Global Fishing Watch Vessel Voyages and Anchorages Analysis and Web Map
 
-![Global Anchorage Web Map](docs/images/1-global-map.png)
+This project analyzes global vessel voyages activity in anchorage points using Global Fishing Watch data and delivers an interactive web map to explore the results. 
 
-## The question
+![Global Anchorage Web Map](docs/images/1-global-map.gif)
 
-**What are the main characteristics of the global maritime supply chain?**
+It builds an ETL pipeline that transforms Automatic Identification System (AIS) derived vessel visits into PMTiles and JSON files used by a self-hosted interactive web map for exploring global maritime traffic.
 
-This question is desegregated in five major questions to address the spatial distribution of anchorage points and the amount vessels visits.
+**🌐 Live Demo:** [Open the Interactive Web Map](https://github.com/AdrianChC/gfw-anchorages-vessel-activity)
+
+📖 **ETL & Exploratory Analysis Notebook:** [Open the Jupyter Notebook](https://github.com/AdrianChC/gfw-anchorages-vessel-activity/blob/main/ETL-anchorages-voyages-v4.ipynb)
+
+
+## Research
+### What are the main spatial and temporal characteristics of global maritime activity at anchorage points?
+
+This question is broken down in five major questions to address the spatial distribution of anchorage points and the amount vessels visits.
 
 1. What is the global spatial distribution of ports, docks and anchorage points?
 
 2. How frequently are anchorage points visited by vessels?
 
-3. What is the daily intensity of vwssel activity at each anchorage point?
+3. What is the daily intensity of vessel activity at each anchorage point?
 
 4. How does daily vessel activity vary at each anchorage point during the month?
 
@@ -26,34 +34,34 @@ This question is desegregated in five major questions to address the spatial dis
 - Where are the Top 5 anchorage points?
 - Where is the anchorage point with the highest activity?
 
-
-## The data
+### The data
 
 - **Anchorage Points:** `named_anchorages_v2_pipe_v3_202601.csv` 
 <br> Global Fishing Watch. 2026. Anchorages Version 3. Data set accessed 2026-07-05.
 - **Vessels Voyages:** `voyages_c4_pipe_v3_202606.csv` 
 <br> Global Fishing Watch. 2026, updated monthly. Voyages - confidence level 4 - AIS data pipieline v4. Data set accessed 2026-07-05.
 
+### Analysis methodology
 
-## Methodology
+#### Data Preparation
+An exploratory  analysis of the `anchorage points` dataset was conducted to evaluate the available attributes, including port, country, dock, and Exclusive Economic Zone (EEZ) information of each point. This analysis informed the selection of the variables used throughout the study.
 
-Built the exploratory analysis, data transformation, processing, and delivery of ready-for-web map data with **Python Pandas and GeoPandas** as showned in the `ETL-anchorages-voyages-v4.ipynb`.
+The exploratory data analysis of the `vessels activity` dataset was conducted to quantify the distribution of vessel visits on each anchorage point over time. Based on this analysis, June 2026 was selected as the study period because it contained the highest number of recorded visits, providing a relevant timeframe to understand the global maritime activity.
 
-The anchorages dataset was transformed to show only relevant information, such as the label, unique identifier, associated country, and dock classification. The anchorage dataset was also enriched to include the full name of the Exclusive Economic Zone (EEZ) containing each point.
+#### Data Enrichment
+The country information field `iso3`  from the `anchorage points` dataset was joined with a dataset containing in-detail information of the name of the Exclusive Economic Zone associated with each point.
 
-The Vessel Voyages dataset was transformed to list vessel visits to the anchorage points during June 2026, as it was the month with the highest number of recorded visits. A daily time-series of visit was also generated from this dataset, as well as an aggregated metric to measure the intensity of use for each anchorage point.
+#### Activity Analysis
+The `trip_start_anchorage_id` and `trip_end_anchorage_id` fields from the `vessels activity` dataset were processed to quantify the number of registered visits on each anchorage point. 
 
-An spatial search index was built using the EEZ and port names listed in the dataset, which is used in the web map.
+The `trip_start` and `trip_end` fields were processed to display daily visits during the June 2026, the aggregated monthly visits, and the daily intensity of use of each anchorage.
 
-The anchorage spatial dataset was converted into a `PMTiles` format which makes it possible to display the large number of records at global scale. The Jupyter Notebook deliver `JSON` files that are displayed in the web map. The following are the files loaded into the web map:
+#### Statistical Analysis
+The monthly visit count were analyzed to identify relevant activity groups. The monthly visit distribution shows a right-skewed pattern, characterized by a rapid decrease in frequency as visit count increased, resembling an exponential decreasing  distribution. 
 
-- `data.pmtiles` contains the anchorage points information in a map tile format
-- `metadata.json` contains the vessel visits timeframe.
-- `searchIndex.json` contains a list of countries and ports bounding boxes around the anchorage points, which is used by the web map search bar.
-- `timeSeries.json` contains the daily vessel visits per anchorage point during the given timeframe.
+Based on this pattern, anchorage points were categorized using percentile-based and rank-based thresholds:  below 95th percentile, above the 5th percentile, top 500, top 20, top 5, and the maximum observed value.
 
-
-## Findings
+### Findings
 
 For the June 2026 time period:
 
@@ -61,7 +69,7 @@ For the June 2026 time period:
 - 95% of the anchorage point had fewer than 241 vessel visits. Most of them had just one.
 - The top 5 most visited anchorage points are located in China, Indonesia, Netherlands and New Zealand.
 
-| s2id     | Port       | Country               | month visits |
+| s2id     | Port       | Country               | Month visits |
 |----------|------------|------------------------------|-------| 
 | 35ad9741 | Shanghai   | China                        | 7,315 |
 | 35adc0e7 | Shanghai   | China                        | 4,859 |
@@ -69,19 +77,19 @@ For the June 2026 time period:
 | 47c480bd | NLD-460    | Netherlands (Kingdom of the) | 4,518 |
 | 6d0d482d | Orakei     | New Zealand                  | 4,334 |
 
-- The top 5 most visited ports are the ports of Shangai, Antwerp, Busan, Incheon, and Ningbo. The port of Shangai handled 7.79% of  China's vessel visits and 0.77% of the world's vessel visits. Antwerp (Belgium) handled the 46.9% of Belgium's vessel visits and the 0.37% of the world's vessel visits.
+- The top 5 most visited ports are the ports of Shanghai, Antwerp, Busan, Incheon, and Ningbo. The port of Shanghai handled 7.79% of  China's vessel visits and 0.77% of the world's vessel visits. Antwerp (Belgium) handled the 46.9% of Belgium's vessel visits and the 0.37% of the world's vessel visits.
 
-| Port      | Country             | month visits |
+| Port      | Country             | Month visits |
 |-----------|---------------------------|--------| 
 | Shanghai  | China                     | 23,364 |
 | Antwerp   | Belgium                   | 11,132 |
-| Busan     | Indonesia                 | 10,185 |
+| Busan     | Korea (the Republic of)   | 10,185 |
 | Incheon   | Korea (the Republic of)   | 9,580  |
-| Ningbo    | Korea (the Republic of)   | 9,075  |
+| Ningbo    | China                     | 9,075  |
 
 - The top 5 countries with more visits are China, US, Norway, Italy and France. China handled 9.95% and US handled the 9.61% of the vessel visits across the globe.
 
-| Country                      | month visits |
+| Country                      | Month visits |
 |-----------------------------------|---------| 
 | China                             | 300,052 |
 | United States of America (the)    | 289,740 |
@@ -89,16 +97,114 @@ For the June 2026 time period:
 | Italy                             | 148,483 |
 | France                            | 127,049 |
 
-## How to run it
+- The distribution of the vessel visits during June 2026.
 
-### Set project environment
+|  Category                | Month visits |
+|-----------------------|-------|
+| Below 95th Percentile | < 241 |
+| Above 95th Percentile | 241 – 844 |
+| Top 500               | 844 – 3,394 |
+| Top 20                | 3,394 – 4,333 |
+| Top 5                 | 4,333 – 7,315 |
+| Highest Activity      | ≥ 7,315 |
+
+
+## Engineering
+### Architecture
+```mermaid
+
+flowchart LR
+
+subgraph Input["Global Fishing Watch Datasets"]
+    A[Anchorages CSV]
+    B[All Vessels Voyages CSV<br/>Confidence Level 4]
+end
+
+subgraph Processing["Data Processing"]
+    C[ETL Pipeline<br/>Python • Pandas • GeoPandas]
+    D[GeoJSON]
+    E[Tippecanoe]
+    F[JSON Assets]
+end
+
+subgraph Output["Web Map Assets"]
+    G[data.pmtiles]
+    H[metadata.json]
+    I[searchIndex.json]
+    J[timeSeries.json]
+end
+
+K[Interactive Web Map<br/>• HTML • CSS • JavaScript<br/>]
+
+A --> C
+B --> C
+
+C --> D
+D --> E
+E --> G
+
+C --> F
+F --> H
+F --> I
+F --> J
+
+G --> K
+H --> K
+I --> K
+J --> K
+
+```
+### Generated Assets
+
+The ETL pipeline produces the following assets consumed by the interactive web map.
+
+| Asset | Purpose |
+|--------|---------|
+| `data.pmtiles` | Vector tiles containing anchorage locations and attributes. |
+| `metadata.json` | Dataset metadata and temporal coverage. |
+| `searchIndex.json` | Search index and bounding boxes for ports and countries. |
+| `timeSeries.json` | Daily vessel visits for each anchorage point. |
+
+### Repository structure
+
+```text
+.
+├── data/           
+│   ├── raw/        # raw Global Fishing Watch datasets
+│   └── processed/  # intermediate GEOJSON outputs
+│
+├── docs/           # interactive web map (GitHub Pages)
+│   ├── css/        
+│   ├── data/       # PMTiles and JSON assets
+│   ├── js/         
+│   └── index.html  
+│
+├── notebook.ipynb  # ETL pipeline and exploratory analysis
+├── Makefile        # project automation
+├── pixi.toml       # project environment
+└── README.md
+
+├── .pixi/             # Generated Pixi environment
+└── .venv/             # Python virtual environment
+```
+
+### Technology Stack
+
+- **Environment** : Bash + Pixi
+- **Data Processing** : Jupyter Lab + Python + Pandas + GeoPandas + Matplotlib
+- **Geospatial Processing** : PMTiles + Tippecanoe + GeoJSON
+- **Web Development** : HTML + CSS + JavaScript
+
+### How to run
+
+#### Set project environment
 Run: 
 
 ```bash
 make env
 ```
 
-### Run the analysis with Jupyter Notebook
+#### Run the analysis with Jupyter Notebook
 Set kernel from this project environment
 
 ```bash
@@ -107,7 +213,7 @@ make set-kernel
 
 Open `ETL-anchorages-voyages-v4.ipynb` and run the code to calculate each result, plots, and return a GeJSON file that has to be converted to pmtiles and JSON files.
 
-### Convert GeoJSON to PMtiles
+#### Convert GeoJSON to PMtiles
 
 Run
 
@@ -115,7 +221,7 @@ Run
 make pmtiles-data
 ```
 
-### Run the Web Map
+#### Run the Web Map
 Make sure the the folder `./docs/data/` has the following files:
 - data.pmtiles
 - metadata.json
@@ -135,7 +241,7 @@ http://localhost:8000
 
 ![Anchorage selection and time-series](docs/images/2-anchorage-timeseries.png)
 
-## Web map features
+### Web Map features
 
 ✅ Search for countries and ports <br>
 ✅ View search suggestions while typing <br>
@@ -154,26 +260,19 @@ http://localhost:8000
 
 ![Mobile responsive version](docs/images/3-mobile-view.png)
 
+
 ## What I learned
 
 - Set up a reproducible project environment that allows running
 the ETL pipeline, and Jupyter Notebook.
-- Set up a ETL pipeline from a data portal that delivers ready-to-use data with a tile format that host large dataset that would not be possible to display in other formats.
+- Set up an ETL pipeline from a data portal that delivers ready-to-use data with a tile format that host large dataset that would not be possible to display in other formats.
 - Prepared a Jupyter Notebook with basic spatial EDA that reports two spatial metrics and visualize them with a web maps.
 - Web mapping provides scalable solutions capable of handling large datasets when the architecture is designed accordingly.
-- Dividing the Java Script functionality into module makes the app easy to navigate, fix, and improve.
+- Dividing the Java Script functionality into modules makes the app easy to navigate, fix, and improve.
 - Web mapping design has to consider the desktop and the mobile responsive version.
-- Cartographic design principles always applies rather the map is static or interactive.
+- Cartographic design principles always apply rather the map is static or interactive.
 
 
-## Stack
 
-- **Environment** : Bash + Pixi
-
-- **Data Processing** : Jupyter Lab + Python + Pandas + GeoPandas + Matplotlib
-
-- **Geospatial Processing** : PMTiles + Tippecanoe + GeoJSON
-
-- **Web Development** : HTML + CSS + JavaScript
 
 

@@ -7,10 +7,10 @@
 # PMTiles is a single-file archive of vector tiles — no tile server needed.
 # The browser fetches only the tiles it needs using HTTP range requests.
 #
-# Input:   ./data/neighborhood_density.geojson
-#          (197 MultiPolygon features with hydrant density data)
+# Input:   ./data/processed/anch_june.geojson
+#          (58,594 Point features with anchorage points data)
 #
-# Output:  neighborhood_density.pmtiles
+# Output:  data.pmtiles
 #
 # Prerequisites:
 #   - tippecanoe installed (tippecanoe --version to check)
@@ -23,7 +23,7 @@
 
 set -e
 
-GEOJSON_INPUT="./data/output/anch_june.geojson"
+GEOJSON_INPUT="./data/processed/anch_june.geojson"
 OUTPUT="./data/data.pmtiles"
 
 # --- Check prerequisites --------------------------------------------------
