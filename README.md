@@ -133,9 +133,9 @@ python -m http.server
 
 http://localhost:8000
 
-## Web map features
-
 ![Anchorage selection and time-series](docs/images/2-anchorage-timeseries.png)
+
+## Web map features
 
 ✅ Search for countries and ports <br>
 ✅ View search suggestions while typing <br>
