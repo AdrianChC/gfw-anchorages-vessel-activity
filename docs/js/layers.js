@@ -58,5 +58,54 @@ export function addLayers(map) {
       ], 
     }
   });
-  
+
+
+  // hover layer
+  map.addLayer({
+    id: "points-circle-hover",  // unique layer name
+    source: "data",       // name of a source description to be used for this layer
+    type: "circle",       // required rendering type
+    // must match Tippecanoe layer name (-l points)
+    'source-layer': "anch_june",
+    // controls the circle-color order by "month" count
+    layout: {
+      "circle-sort-key": ["get", "month"] // circles display is order by asc "month" value
+    },
+
+    // Initially show nothing
+    filter: ["==", "s2id", ""],
+
+    paint: {
+
+      // Double the normal radius
+      "circle-radius": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        2, 5,     // at zoom level  2  all circles are 5 pts size
+        10, 8     // at zoom level 10  all circles are 8 pts size
+      ],
+
+      // Same colors as the base layer
+      "circle-color": [
+          "step",
+          ["get", "month"],
+          "#0078ff",        //     < 241  95th percentile
+          241, "#6b6bed",   //   241-844  up th 95th percentile
+          845, "#915dd8",   //  845-3394  500th largest value
+          3395, "#a850c1",  // 3395-4333  20th largest value
+          4334, "#b745aa",  // 4334-7315  5th largest value
+          7315, "#bf3c92",  //   >= 7315  max value
+      ],
+      // Single Opacity value
+       "circle-opacity": 1,
+
+      // Hover outline
+      "circle-stroke-color": "#cecece",
+      "circle-stroke-width": 2
+
+    }
+  });
+ 
+
 }

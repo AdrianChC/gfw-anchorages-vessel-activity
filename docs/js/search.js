@@ -59,9 +59,7 @@ function filterLocations(query, searchIndex) {
         .sort((a, b) =>
             a.name.localeCompare(b.name)
         )
-        // this slices the results to the first 10
-        // .slice(0, 10);
-
+        
 }
 
 // render the search results dropdown

@@ -24,7 +24,9 @@ export function addSources(map) {
 
     map.addSource("data", {
         type: "vector",
-        url: `pmtiles://${PMTILES_URL}`
+        url: `pmtiles://${PMTILES_URL}`,
+        // required for the style change
+        promoteId: "s2id" 
     });
 
     console.log("Source 'data' added.");
