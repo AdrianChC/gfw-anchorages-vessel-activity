@@ -7,7 +7,7 @@ This project analyzes global vessel voyages activity in anchorage points using G
 
 It builds an ETL pipeline that transforms Automatic Identification System (AIS) derived vessel visits into PMTiles and JSON files used by a self-hosted interactive web map for exploring global maritime traffic.
 
-**🌐 Live Demo:** [Open the Interactive Web Map](https://github.com/AdrianChC/gfw-anchorages-vessel-activity)
+**🌐 Live Demo:** [Open the Interactive Web Map](https://adrianchc.github.io/gfw-anchorages-vessel-activity/)
 
 📖 **ETL & Exploratory Analysis Notebook:** [Open the Jupyter Notebook](https://github.com/AdrianChC/gfw-anchorages-vessel-activity/blob/main/ETL-anchorages-voyages-v4.ipynb)
 
@@ -265,8 +265,11 @@ http://localhost:8000
 
 - Set up a reproducible project environment that allows running
 the ETL pipeline, and Jupyter Notebook.
-- Set up an ETL pipeline from a data portal that delivers ready-to-use data with a tile format that host large dataset that would not be possible to display in other formats.
-- Prepared a Jupyter Notebook with basic spatial EDA that reports two spatial metrics and visualize them with a web maps.
+- Set up an ETL pipeline from a data portal that delivers ready-to-use data with a map tile format that host a large dataset which would not be possible in other formats such as GEOJSON.
+- Write a Jupyter Notebook that reproduces an ETL process that delivers ready-to-use outputs for web mapping.
+- Web maps require low-size files. It is important to have an strategy to deliver data outputs that are optimized for web. JSON file export parameters, identation, primary keys are relevant. 
+- The data needs to be structured considering the web map features that are serving.
+- Spatial data field is just one aspect of the outputs. Not all data outputs need to include spatial features. 
 - Web mapping provides scalable solutions capable of handling large datasets when the architecture is designed accordingly.
 - Dividing the Java Script functionality into modules makes the app easy to navigate, fix, and improve.
 - Web mapping design has to consider the desktop and the mobile responsive version.
