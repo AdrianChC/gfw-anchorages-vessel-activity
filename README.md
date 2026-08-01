@@ -3,7 +3,7 @@
 
 This project analyzes global vessel voyages activity in anchorage points using Global Fishing Watch data and delivers an interactive web map to explore the results. 
 
-<video src="docs/images/1-global-map.mp4" width="100%" autoplay loop muted playsinline></video>
+![Global Vessel Activity Web Map](docs/images/1-global-map.gif)
 
 It builds an ETL pipeline that transforms Automatic Identification System (AIS) derived vessel visits into PMTiles and JSON files used by a self-hosted interactive web map for exploring global maritime traffic.
 
