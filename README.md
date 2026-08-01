@@ -3,7 +3,7 @@
 
 This project analyzes global vessel voyages activity in anchorage points using Global Fishing Watch data and delivers an interactive web map to explore the results. 
 
-![Global Anchorage Web Map](docs/images/1-global-map.gif)
+<video src="docs/images/1-global-map.mp4" width="100%" autoplay loop muted playsinline></video>
 
 It builds an ETL pipeline that transforms Automatic Identification System (AIS) derived vessel visits into PMTiles and JSON files used by a self-hosted interactive web map for exploring global maritime traffic.
 
@@ -182,8 +182,8 @@ The ETL pipeline produces the following assets consumed by the interactive web m
 ├── notebook.ipynb  # ETL pipeline and exploratory analysis
 ├── Makefile        # project automation
 ├── pixi.toml       # project environment
-└── README.md
-
+├── README.md
+│
 ├── .pixi/             # Generated Pixi environment
 └── .venv/             # Python virtual environment
 ```
